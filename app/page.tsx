@@ -12,6 +12,10 @@ export default function HomePage() {
     { value: config.stat3Value, label: config.stat3Label },
   ]
 
+  // Parse service areas for client-side validation
+  let parsedServiceAreas: Array<{ id: string; centerLat: number; centerLng: number; radiusMiles: number }> = []
+  try { parsedServiceAreas = JSON.parse(config.serviceAreas) } catch {}
+
   return (
     <main className="relative min-h-screen bg-gray-50">
       <div className="relative z-10">
@@ -27,6 +31,9 @@ export default function HomePage() {
           <div className="mx-auto text-center">
             <h1 className="text-3xl font-bold leading-tight text-gray-900 md:text-5xl lg:text-[3.25rem] lg:leading-tight text-balance">
               {config.headline}
+              {config.headlineAccent && (
+                <span style={{ color: config.accentColor }}> {config.headlineAccent}</span>
+              )}
             </h1>
             <p className="mt-2 md:mt-3 text-base md:text-lg text-gray-600">
               {config.subheadline}
@@ -59,7 +66,11 @@ export default function HomePage() {
 
           {/* Survey Form */}
           <div className="mt-4 md:mt-6 mx-auto max-w-3xl">
-            <SurveyCard phoneDisplay={config.phoneDisplay} phoneHref={config.phoneHref} />
+            <SurveyCard
+              phoneDisplay={config.phoneDisplay}
+              phoneHref={config.phoneHref}
+              serviceAreas={parsedServiceAreas}
+            />
           </div>
 
           {/* Owner / Founder section — shows when ownerName or headshotUrl is set */}
@@ -71,6 +82,7 @@ export default function HomePage() {
                     src={config.headshotUrl}
                     alt={config.ownerName || config.companyName}
                     fill
+                    unoptimized
                     className="object-cover"
                   />
                 </div>
