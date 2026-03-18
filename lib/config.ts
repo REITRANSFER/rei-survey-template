@@ -11,6 +11,10 @@ const config = {
   accentColor:     process.env.ACCENT_COLOR      ?? "#2563eb",
   logoUrl:         process.env.LOGO_URL          ?? "",
 
+  // Owner / personalization
+  ownerName:       process.env.OWNER_NAME        ?? "",
+  headshotUrl:     process.env.HEADSHOT_URL      ?? "",
+
   // Hero
   headline:        process.env.HEADLINE          ?? "Sell Your House Fast For Cash",
   subheadline:     process.env.SUBHEADLINE       ?? "No fees. No repairs. Cash offer in 24 hours.",
