@@ -17,7 +17,11 @@ const config = {
 
   // Hero
   headline:        process.env.HEADLINE          ?? "Sell Your House Fast For Cash",
+  headlineAccent:  process.env.HEADLINE_ACCENT   ?? "",
   subheadline:     process.env.SUBHEADLINE       ?? "No fees. No repairs. Cash offer in 24 hours.",
+
+  // Service areas — JSON array of {id, centerLat, centerLng, radiusMiles}
+  serviceAreas:    process.env.SERVICE_AREAS     ?? "[]",
 
   // Trust indicators
   stat1Value:      process.env.STAT_1_VALUE      ?? "1,000+",
