@@ -5,7 +5,7 @@ import { Home, ArrowRight, ArrowLeft, Check, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { captureTrackingData, getIPAddress } from "@/lib/tracking"
 import { Input } from "@/components/ui/input"
-import { AddressAutocomplete, type AddressDetails } from "./address-autocomplete"
+import { AddressAutocomplete, type AddressDetails, type ServiceArea } from "./address-autocomplete"
 
 interface SurveyData {
   address: string
@@ -144,9 +144,10 @@ function validateName(name: string): { valid: boolean; msg: string } {
 interface SurveyCardProps {
   phoneDisplay?: string
   phoneHref?: string
+  serviceAreas?: ServiceArea[]
 }
 
-export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000" }: SurveyCardProps) {
+export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [] }: SurveyCardProps) {
   const [step, setStep] = useState(1)
   const [surveyData, setSurveyData] = useState<SurveyData>({
     address: "",
@@ -164,6 +165,7 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
   const [isDisqualified, setIsDisqualified] = useState(false)
   const [disqualifyReason, setDisqualifyReason] = useState("")
   const [addressVerified, setAddressVerified] = useState(false)
+  const [addressOutOfArea, setAddressOutOfArea] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [validationErrors, setValidationErrors] = useState<{[key: string]: string}>({})
   const formStartTime = useRef<number>(Date.now())
@@ -245,7 +247,7 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
 
   const canProceed = () => {
     switch (step) {
-      case 1: return surveyData.address.trim().length > 0 && addressVerified
+      case 1: return surveyData.address.trim().length > 0 && addressVerified && !addressOutOfArea
       case 2: return surveyData.propertyType !== ""
       case 3: return surveyData.isLegalOwner !== ""
       case 4: return surveyData.listedOnMarket !== ""
@@ -283,6 +285,7 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
   const handleAddressSelect = (address: string, _details: AddressDetails) => {
     setSurveyData({ ...surveyData, address })
     setAddressVerified(true)
+    setAddressOutOfArea(false)
     setTimeout(() => { setStep(2) }, 300)
   }
 
@@ -392,10 +395,17 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
             </div>
             <AddressAutocomplete
               value={surveyData.address}
-              onChange={(address) => { setSurveyData({ ...surveyData, address }); setAddressVerified(false) }}
+              onChange={(address) => { setSurveyData({ ...surveyData, address }); setAddressVerified(false); setAddressOutOfArea(false) }}
               onSelect={handleAddressSelect}
+              onOutOfArea={(addr) => { setSurveyData({ ...surveyData, address: addr }); setAddressVerified(false); setAddressOutOfArea(true) }}
+              serviceAreas={serviceAreas}
               placeholder="Start typing your address..."
             />
+            {addressOutOfArea && (
+              <p className="mt-2 text-sm text-red-500">
+                Sorry, we don&apos;t currently serve that area. Please enter an address within our service area.
+              </p>
+            )}
           </div>
         )}
 
