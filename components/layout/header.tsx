@@ -6,11 +6,14 @@ interface HeaderProps {
   phoneDisplay: string
   phoneHref: string
   logoUrl: string
+  headerBgColor?: string
 }
 
-export function Header({ companyName, phoneDisplay, phoneHref, logoUrl }: HeaderProps) {
+export function Header({ companyName, phoneDisplay, phoneHref, logoUrl, headerBgColor = "#ffffff" }: HeaderProps) {
+  const isDark = headerBgColor !== "#ffffff" && headerBgColor !== "white"
+
   return (
-    <header className="w-full bg-white shadow-sm">
+    <header className="w-full shadow-sm" style={{ backgroundColor: headerBgColor }}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
         {/* Logo / Company Name */}
         <div className="flex items-center">
@@ -24,7 +27,10 @@ export function Header({ companyName, phoneDisplay, phoneHref, logoUrl }: Header
               unoptimized
             />
           ) : (
-            <span className="text-lg font-bold text-[var(--accent)]">
+            <span
+              className="text-lg font-bold"
+              style={{ color: isDark ? "white" : "var(--accent)" }}
+            >
               {companyName}
             </span>
           )}
