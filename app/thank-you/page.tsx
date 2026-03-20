@@ -1,14 +1,13 @@
 import Image from "next/image"
 import { CheckCircle2, Phone } from "lucide-react"
 import config from "@/lib/config"
+import { LeadEvent } from "@/components/tracking/lead-event"
 
 export default function ThankYouPage() {
   return (
     <main className="min-h-screen bg-gray-50">
-      {/* Fire Facebook Lead event on client */}
-      <script dangerouslySetInnerHTML={{
-        __html: `try { if (window.fbq) window.fbq('track', 'Lead'); } catch(e) {}`
-      }} />
+      {/* Fire Facebook Lead event once pixel is ready */}
+      <LeadEvent />
 
       <div className="mx-auto max-w-2xl px-4 py-12 md:py-20">
         {/* Confirmation icon */}
@@ -69,7 +68,7 @@ export default function ThankYouPage() {
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p>
               If you&apos;re reading this, you just took a step that most homeowners put off for months. Maybe years.
-              So before anything else — we want you to know that was the right call.
+              So before anything else &mdash; we want you to know that was the right call.
             </p>
             <p>
               Selling a house is stressful. The uncertainty, the waiting, the feeling like you&apos;re at the mercy of a system
@@ -79,7 +78,7 @@ export default function ThankYouPage() {
             <p>
               We started {config.companyName} because we kept meeting good people stuck in bad situations. Inherited properties
               they couldn&apos;t afford to keep. Houses that needed more work than they had time or money for. Divorces,
-              job relocations, tax liens — life happens. And when it does, the last thing you need is someone telling
+              job relocations, tax liens &mdash; life happens. And when it does, the last thing you need is someone telling
               you to repaint your kitchen and &ldquo;list it in the spring.&rdquo;
             </p>
             <p>
@@ -96,7 +95,7 @@ export default function ThankYouPage() {
           <div className="space-y-4">
             {[
               { step: "1", title: "We review your property", desc: "Our team looks at your submission and researches the property." },
-              { step: "2", title: "You get a cash offer", desc: "Within 24 hours, we'll reach out with a fair, no-obligation offer." },
+              { step: "2", title: "You get a cash offer", desc: "Within 24 hours, we\u2019ll reach out with a fair, no-obligation offer." },
               { step: "3", title: "You choose your closing date", desc: "If you accept, you pick the date. We handle the rest." },
             ].map(({ step, title, desc }) => (
               <div key={step} className="flex gap-4">
