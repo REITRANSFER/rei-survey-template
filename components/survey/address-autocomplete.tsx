@@ -90,7 +90,8 @@ export function AddressAutocomplete({
 
     // Build bounds covering all service area circles
     let bounds: google.maps.LatLngBounds | undefined
-    if (serviceAreas.length > 0) {
+    const hasServiceAreas = serviceAreas.length > 0
+    if (hasServiceAreas) {
       bounds = new google.maps.LatLngBounds()
       serviceAreas.forEach(area => {
         // Approximate circle bounding box (1 degree lat ≈ 69 miles)
@@ -105,7 +106,7 @@ export function AddressAutocomplete({
       componentRestrictions: { country: "us" },
       types: ["address"],
       fields: ["formatted_address", "address_components", "geometry"],
-      ...(bounds ? { bounds, strictBounds: false } : {}),
+      ...(bounds ? { bounds, strictBounds: true } : {}),
     })
 
     autocompleteRef.current.addListener("place_changed", () => {
