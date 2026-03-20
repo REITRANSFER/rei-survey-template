@@ -168,5 +168,13 @@
     "scope": "public",
     "default": "",
     "description": "Vidalytics embed ID. Optional -- set post-deploy if client uses video."
+  },
+  {
+    "name": "SERVICE_AREAS",
+    "type": "json",
+    "required": false,
+    "scope": "server",
+    "default": "[]",
+    "description": "JSON array of service area circles: [{id, centerLat, centerLng, radiusMiles}]. Passed to address autocomplete for location bias."
   }
 ]

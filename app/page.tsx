@@ -17,7 +17,7 @@ export default function HomePage() {
   try { parsedServiceAreas = JSON.parse(config.serviceAreas) } catch {}
 
   return (
-    <main className="relative min-h-screen bg-gray-50">
+    <main className="relative min-h-screen" style={{ backgroundColor: config.accentColor }}>
       <div className="relative z-10">
         <Header
           companyName={config.companyName}
