@@ -106,7 +106,7 @@ export function AddressAutocomplete({
       componentRestrictions: { country: "us" },
       types: ["address"],
       fields: ["formatted_address", "address_components", "geometry"],
-      ...(bounds ? { bounds, strictBounds: true } : {}),
+      ...(bounds ? { bounds } : {}),
     })
 
     autocompleteRef.current.addListener("place_changed", () => {
