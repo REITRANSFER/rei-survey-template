@@ -178,6 +178,12 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
   const totalSteps = 8
 
   const handleNext = async () => {
+    // Block out-of-area addresses on Continue with a disqualify screen
+    if (step === 1 && addressOutOfArea) {
+      setDisqualifyReason("outOfArea")
+      setIsDisqualified(true)
+      return
+    }
     if (step === 8) {
       const errors: {[key: string]: string} = {}
 
@@ -247,7 +253,7 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
 
   const canProceed = () => {
     switch (step) {
-      case 1: return surveyData.address.trim().length > 0 && addressVerified && !addressOutOfArea
+      case 1: return surveyData.address.trim().length > 0 && addressVerified
       case 2: return surveyData.propertyType !== ""
       case 3: return surveyData.isLegalOwner !== ""
       case 4: return surveyData.listedOnMarket !== ""
@@ -324,6 +330,11 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
         message: "Unfortunately, we're not able to make an offer on this type of property at this time.",
         detail: "We primarily purchase single-family homes, multi-family properties, and condos/townhouses. If you have a different property you'd like to sell, feel free to reach out.",
       },
+      outOfArea: {
+        title: "Outside Our Service Area",
+        message: "Unfortunately, we don't currently buy properties in that area.",
+        detail: "We only serve select markets at this time. If you believe your property is within our coverage area, please try a different address or give us a call.",
+      },
     }
     const msg = disqualifyMessages[disqualifyReason] || disqualifyMessages.notOwner
 
@@ -397,13 +408,13 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
               value={surveyData.address}
               onChange={(address) => { setSurveyData({ ...surveyData, address }); setAddressVerified(false); setAddressOutOfArea(false) }}
               onSelect={handleAddressSelect}
-              onOutOfArea={(addr) => { setSurveyData({ ...surveyData, address: addr }); setAddressVerified(false); setAddressOutOfArea(true) }}
+              onOutOfArea={(addr) => { setSurveyData({ ...surveyData, address: addr }); setAddressVerified(true); setAddressOutOfArea(true) }}
               serviceAreas={serviceAreas}
               placeholder="Start typing your address..."
             />
             {addressOutOfArea && (
-              <p className="mt-2 text-sm text-red-500">
-                Sorry, we don&apos;t currently serve that area. Please enter an address within our service area.
+              <p className="mt-2 text-sm text-amber-600">
+                This address appears to be outside our primary service area. You can still continue, but we may not be able to help.
               </p>
             )}
           </div>
