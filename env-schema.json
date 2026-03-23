@@ -120,16 +120,16 @@
     "type": "string",
     "required": false,
     "scope": "server",
-    "default": "",
-    "description": "Absolute URL to privacy policy page. Set post-deploy when legal docs are ready."
+    "default": "/privacy",
+    "description": "URL for privacy policy page. Defaults to /privacy (built into template)."
   },
   {
     "name": "TERMS_URL",
     "type": "string",
     "required": false,
     "scope": "server",
-    "default": "",
-    "description": "Absolute URL to terms of service page. Set post-deploy when legal docs are ready."
+    "default": "/terms",
+    "description": "URL for terms of service page. Defaults to /terms (built into template)."
   },
   {
     "name": "WEBHOOK_URL",
@@ -176,5 +176,13 @@
     "scope": "server",
     "default": "[]",
     "description": "JSON array of service area circles: [{id, centerLat, centerLng, radiusMiles}]. Passed to address autocomplete for location bias."
+  },
+  {
+    "name": "NEXT_PUBLIC_SERVICE_AREAS",
+    "type": "json",
+    "required": false,
+    "scope": "public",
+    "default": "[]",
+    "description": "Client-side copy of SERVICE_AREAS for address autocomplete location bias and validation. JSON array of circles: [{centerLat, centerLng, radiusMiles}]."
   }
 ]
