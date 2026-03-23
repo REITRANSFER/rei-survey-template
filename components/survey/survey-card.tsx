@@ -412,11 +412,7 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
               serviceAreas={serviceAreas}
               placeholder="Start typing your address..."
             />
-            {addressOutOfArea && (
-              <p className="mt-2 text-sm text-amber-600">
-                This address appears to be outside our primary service area. You can still continue, but we may not be able to help.
-              </p>
-            )}
+
           </div>
         )}
 
