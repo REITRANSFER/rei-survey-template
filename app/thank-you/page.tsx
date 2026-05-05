@@ -31,6 +31,23 @@ export default function ThankYouPage() {
           </p>
         </div>
 
+        {/* Video section */}
+        {process.env.NEXT_PUBLIC_THANKYOU_VIDEO_URL && (
+          <div className="mb-8">
+            <h2 className="mb-3 text-center text-xl font-bold text-gray-900">
+              Watch This While You Wait
+            </h2>
+            <div className="mx-auto max-w-xs overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+              <video
+                src={process.env.NEXT_PUBLIC_THANKYOU_VIDEO_URL}
+                controls
+                playsInline
+                className="w-full"
+              />
+            </div>
+          </div>
+        )}
+
         {/* Personal note card */}
         <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6 md:p-8 mb-6">
           <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-2">
@@ -88,23 +105,6 @@ export default function ThankYouPage() {
             </p>
           </div>
         </div>
-
-        {/* Video section */}
-        {process.env.NEXT_PUBLIC_THANKYOU_VIDEO_URL && (
-          <div className="mb-6">
-            <h2 className="mb-3 text-center text-xl font-bold text-gray-900">
-              Watch This While You Wait
-            </h2>
-            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-              <video
-                src={process.env.NEXT_PUBLIC_THANKYOU_VIDEO_URL}
-                controls
-                playsInline
-                className="w-full"
-              />
-            </div>
-          </div>
-        )}
 
         {/* What happens next */}
         <div className="rounded-2xl bg-white border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
