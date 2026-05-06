@@ -185,9 +185,10 @@ interface SurveyCardProps {
   phoneDisplay?: string
   phoneHref?: string
   serviceAreas?: ServiceArea[]
+  disqualifiedPropertyTypes?: string[]
 }
 
-export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [] }: SurveyCardProps) {
+export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [], disqualifiedPropertyTypes = ["mobile-home", "land", "other"] }: SurveyCardProps) {
   const [step, setStep] = useState(1)
   const [surveyData, setSurveyData] = useState<SurveyData>({
     address: "",
@@ -342,7 +343,7 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
   const handleOptionSelect = (field: keyof SurveyData, value: string) => {
     setSurveyData({ ...surveyData, [field]: value })
 
-    if (field === "propertyType" && ["mobile-home", "land", "other"].includes(value)) {
+    if (field === "propertyType" && disqualifiedPropertyTypes.includes(value)) {
       setTimeout(() => { setDisqualifyReason("propertyType"); setIsDisqualified(true) }, 300)
       return
     }

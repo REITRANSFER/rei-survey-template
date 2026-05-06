@@ -132,6 +132,14 @@
     "description": "URL for terms of service page. Defaults to /terms (built into template)."
   },
   {
+    "name": "DISQUALIFIED_PROPERTY_TYPES",
+    "type": "string",
+    "required": false,
+    "scope": "server",
+    "default": "mobile-home,land,other",
+    "description": "Comma-separated list of property type IDs that trigger an immediate disqualification screen. Valid IDs: single-family, multi-family, condo-townhouse, mobile-home, land, other. Defaults to mobile-home,land,other."
+  },
+  {
     "name": "WEBHOOK_URL",
     "type": "string",
     "required": true,

@@ -16,6 +16,8 @@ export default function HomePage() {
   let parsedServiceAreas: Array<{ id: string; centerLat: number; centerLng: number; radiusMiles: number }> = []
   try { parsedServiceAreas = JSON.parse(config.serviceAreas) } catch {}
 
+  const disqualifiedPropertyTypes = config.disqualifiedPropertyTypes.split(",").map(s => s.trim()).filter(Boolean)
+
   return (
     <main className="relative min-h-screen" style={{ backgroundColor: config.accentColor }}>
       <div className="relative z-10">
@@ -71,6 +73,7 @@ export default function HomePage() {
               phoneDisplay={config.phoneDisplay}
               phoneHref={config.phoneHref}
               serviceAreas={parsedServiceAreas}
+              disqualifiedPropertyTypes={disqualifiedPropertyTypes}
             />
           </div>
 
