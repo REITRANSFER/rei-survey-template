@@ -21,8 +21,12 @@ const config = {
   headlineAccent:  process.env.HEADLINE_ACCENT   ?? "",
   subheadline:     process.env.SUBHEADLINE       ?? "No fees. No repairs. Cash offer in 24 hours.",
 
-  // Service areas — JSON array of {id, centerLat, centerLng, radiusMiles}
+  // Service areas — JSON array of {id, centerLat, centerLng, radiusMiles}. Must be
+  // valid circle objects or "[]". NEVER a state-name array like ["Wisconsin"].
   serviceAreas:    process.env.SERVICE_AREAS     ?? "[]",
+  // Market name for advertorial copy ("Wisconsin"); empty renders "the areas we serve".
+  marketName:      process.env.MARKET_NAME       ?? "",
+  smsKeyword:      process.env.SMS_KEYWORD       ?? "OFFER",
 
   // Trust indicators
   stat1Value:      process.env.STAT_1_VALUE      ?? "1,000+",
