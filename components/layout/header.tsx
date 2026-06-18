@@ -7,6 +7,7 @@ interface HeaderProps {
   phoneHref: string
   logoUrl: string
   headerBgColor?: string
+  ibuykcStyle?: boolean
 }
 
 // When LOGO_HEIGHT_PX is set the logo renders as a wide banner (height fixed,
@@ -16,7 +17,7 @@ interface HeaderProps {
 const LOGO_HEIGHT_PX = Number(process.env.LOGO_HEIGHT_PX || 0)
 const isBannerLogo = LOGO_HEIGHT_PX > 0
 
-export function Header({ companyName, phoneDisplay, phoneHref, logoUrl, headerBgColor = "#ffffff" }: HeaderProps) {
+export function Header({ companyName, phoneDisplay, phoneHref, logoUrl, headerBgColor = "#ffffff", ibuykcStyle = false }: HeaderProps) {
   const isDark = headerBgColor !== "#ffffff" && headerBgColor !== "white"
 
   return (
@@ -41,7 +42,7 @@ export function Header({ companyName, phoneDisplay, phoneHref, logoUrl, headerBg
                 alt={companyName}
                 width={44}
                 height={44}
-                className="h-11 w-11 flex-shrink-0 rounded-lg object-contain"
+                className={ibuykcStyle ? "h-12 md:h-16 w-auto aspect-auto flex-shrink-0 object-contain" : "h-11 w-11 flex-shrink-0 rounded-lg object-contain"}
                 unoptimized
               />
             )

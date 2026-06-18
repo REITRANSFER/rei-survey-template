@@ -200,5 +200,13 @@
     "scope": "server",
     "default": "true",
     "description": "Enables the /v3 zero-distraction form route; \"true\" makes /v3 live, anything else 404s."
+  },
+  {
+    "name": "IBUYKC_STYLE",
+    "type": "string",
+    "required": false,
+    "scope": "server",
+    "default": "true",
+    "description": "Enables the iBuyKC landing style: white page background, accent color only on buttons, dark readable text, enlarged logo, and a flexible owner/team photo (un-cropped, natural aspect). \"true\" turns it on; anything else or unset renders the legacy style. New clients default to \"true\" via this schema; existing rei-survey-template@main projects without this env stay byte-identical on the legacy style."
   }
 ]

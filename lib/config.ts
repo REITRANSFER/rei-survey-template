@@ -49,6 +49,13 @@ const config = {
 
   // Webhook (server-side only — never exposed to browser)
   webhookUrl:      process.env.WEBHOOK_URL ?? "",
+
+  // Style flag — when IBUYKC_STYLE === "true" (default for new clients via the
+  // env-schema default), render the iBuyKC style: white page, accent only on
+  // buttons, dark text, enlarged logo, flexible owner/team photo. The ~17
+  // projects deploying rei-survey-template@main have no IBUYKC_STYLE env → falsy
+  // → byte-identical legacy style.
+  useIbuykcStyle:  process.env.IBUYKC_STYLE === "true",
 } as const
 
 export default config
