@@ -192,5 +192,13 @@
     "scope": "public",
     "default": "[]",
     "description": "Client-side copy of SERVICE_AREAS for address autocomplete location bias and validation. JSON array of circles: [{centerLat, centerLng, radiusMiles}]."
+  },
+  {
+    "name": "V3_ENABLED",
+    "type": "string",
+    "required": false,
+    "scope": "server",
+    "default": "true",
+    "description": "Enables the /v3 zero-distraction form route; \"true\" makes /v3 live, anything else 404s."
   }
 ]
