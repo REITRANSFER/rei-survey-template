@@ -26,6 +26,9 @@ interface AddressAutocompleteProps {
   onSelect: (address: string, details: AddressDetails) => void
   onOutOfArea?: (address: string) => void
   serviceAreas?: ServiceArea[]
+  // 2-letter US state codes to ALLOW. Empty → no state gate. Out-of-list
+  // states are routed through onOutOfArea (same block path as out-of-service-area).
+  allowedStates?: string[]
   placeholder?: string
 }
 
@@ -89,6 +92,7 @@ export function AddressAutocomplete({
   onSelect,
   onOutOfArea,
   serviceAreas = [],
+  allowedStates = [],
   placeholder = "Start typing your address...",
 }: AddressAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -163,6 +167,14 @@ export function AddressAutocomplete({
       }
 
       const details: AddressDetails = { formattedAddress: place.formatted_address, lat, lng, state, city, county }
+
+      // State allow-list gate (env ALLOWED_STATES). When set, any address whose
+      // state is not in the list is treated as out-of-area. Empty → no gate.
+      if (allowedStates.length > 0 && (!state || !allowedStates.map(s => s.toUpperCase()).includes(state.toUpperCase()))) {
+        onChange(place.formatted_address)
+        onOutOfArea?.(place.formatted_address)
+        return
+      }
 
       // Service area validation
       if (serviceAreas.length > 0 && lat !== undefined && lng !== undefined) {

@@ -17,6 +17,7 @@ export default function HomePage() {
   try { parsedServiceAreas = JSON.parse(config.serviceAreas) } catch {}
 
   const disqualifiedPropertyTypes = config.disqualifiedPropertyTypes.split(",").map(s => s.trim()).filter(Boolean)
+  const allowedStates = config.allowedStates.split(",").map(s => s.trim()).filter(Boolean)
 
   const ibuykc = config.useIbuykcStyle
 
@@ -77,6 +78,7 @@ export default function HomePage() {
               phoneHref={config.phoneHref}
               serviceAreas={parsedServiceAreas}
               disqualifiedPropertyTypes={disqualifiedPropertyTypes}
+              allowedStates={allowedStates}
               motivationV2={config.motivationV2}
             />
           </div>

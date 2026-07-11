@@ -140,6 +140,14 @@
     "description": "Comma-separated list of property type IDs that trigger an immediate disqualification screen. Valid IDs: single-family, multi-family, condo-townhouse, mobile-home, land, other. Defaults to mobile-home,land,other."
   },
   {
+    "name": "ALLOWED_STATES",
+    "type": "string",
+    "required": false,
+    "scope": "server",
+    "default": "",
+    "description": "Comma-separated 2-letter US state codes to ALLOW (e.g. 'CA' or 'CA,NV'). When set, any address whose state is not in the list is blocked at step 1 as out-of-area and no lead fires. Empty (default) = no geo gate."
+  },
+  {
     "name": "WEBHOOK_URL",
     "type": "string",
     "required": true,

@@ -47,6 +47,13 @@ const config = {
   // Survey disqualification — comma-separated property type IDs to hard-disqualify
   disqualifiedPropertyTypes: process.env.DISQUALIFIED_PROPERTY_TYPES ?? "mobile-home,land,other",
 
+  // Geo allow-list — comma-separated 2-letter US state codes (e.g. "CA" or
+  // "CA,NV"). When set, any address whose state is NOT in the list is treated
+  // as out-of-area (blocked at step 1, no lead fires). Empty (default) → no geo
+  // gate → byte-identical legacy behavior for all existing rei-survey-template
+  // @main projects that never set ALLOWED_STATES.
+  allowedStates:   process.env.ALLOWED_STATES ?? "",
+
   // Webhook (server-side only — never exposed to browser)
   webhookUrl:      process.env.WEBHOOK_URL ?? "",
 
