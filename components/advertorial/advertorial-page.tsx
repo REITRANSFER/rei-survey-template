@@ -20,6 +20,10 @@ interface AdvertorialPageProps {
   ownerName?: string
   headshotUrl?: string
   serviceAreas: ServiceArea[]
+  // 2-letter US state codes to ALLOW (ALLOWED_STATES). Empty → no state gate.
+  // Must reach the sticky-bar AddressAutocomplete too: it seeds the modal at
+  // step 2, which skips SurveyCard's step-1 out-of-area check.
+  allowedStates?: string[]
   // Forwarded to SurveyCard so the advertorial funnel honors MOTIVATION_V2 too.
   motivationV2?: boolean
 }
@@ -33,6 +37,7 @@ export function AdvertorialPage({
   ownerName,
   headshotUrl,
   serviceAreas,
+  allowedStates = [],
   motivationV2 = false,
 }: AdvertorialPageProps) {
   const market = marketName || "your area"
@@ -298,7 +303,7 @@ export function AdvertorialPage({
             <p style={{ color: C.muted }} className="mt-1 text-[15px]">A handful of quick questions. No cost, nothing owed, no arm-twisting.</p>
           </div>
           <div className="flex justify-center">
-            <SurveyCard phoneDisplay={phoneDisplay} phoneHref={phoneHref} serviceAreas={serviceAreas} motivationV2={motivationV2} />
+            <SurveyCard phoneDisplay={phoneDisplay} phoneHref={phoneHref} serviceAreas={serviceAreas} allowedStates={allowedStates} motivationV2={motivationV2} />
           </div>
           <p style={{ color: C.muted }} className="text-center text-[13px] mt-3.5 max-w-[460px] mx-auto leading-[1.5]">
             Your information stays private. We never sell or share it. Requesting an offer is free and carries no obligation.
@@ -375,7 +380,7 @@ export function AdvertorialPage({
         <div className="max-w-[760px] mx-auto flex gap-2.5 items-center">
           <label className="hidden sm:block text-[13px] font-bold whitespace-nowrap">Type your address to begin:</label>
           <div className="flex-1 min-w-0">
-            <AddressAutocomplete value={stickyAddr} onChange={setStickyAddr} onSelect={handleStickySelect} serviceAreas={serviceAreas} placeholder="Your property address" />
+            <AddressAutocomplete value={stickyAddr} onChange={setStickyAddr} onSelect={handleStickySelect} serviceAreas={serviceAreas} allowedStates={allowedStates} placeholder="Your property address" />
           </div>
           <button onClick={openModalFromButton} style={{ background: C.cta }} className="px-4 sm:px-[18px] py-3 text-white rounded-[9px] text-[14px] sm:text-[15px] font-extrabold whitespace-nowrap hover:opacity-95 transition-opacity">
             See My Cash Offer →
@@ -392,6 +397,7 @@ export function AdvertorialPage({
               phoneDisplay={phoneDisplay}
               phoneHref={phoneHref}
               serviceAreas={serviceAreas}
+              allowedStates={allowedStates}
               initialAddress={seeded?.address}
               initialStep={seeded && seeded.state ? 2 : undefined}
               motivationV2={motivationV2}
