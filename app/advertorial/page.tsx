@@ -17,6 +17,8 @@ export default function AdvertorialRoute() {
     serviceAreas = JSON.parse(config.serviceAreas)
   } catch {}
 
+  const allowedStates = config.allowedStates.split(",").map(s => s.trim()).filter(Boolean)
+
   return (
     <main className="relative min-h-screen bg-white">
       <AdvertorialPage
@@ -28,6 +30,7 @@ export default function AdvertorialRoute() {
         ownerName={config.ownerName}
         headshotUrl={config.headshotUrl}
         serviceAreas={serviceAreas}
+        allowedStates={allowedStates}
         motivationV2={config.motivationV2}
       />
     </main>
