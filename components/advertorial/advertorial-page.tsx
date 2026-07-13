@@ -24,6 +24,10 @@ interface AdvertorialPageProps {
   // Must reach the sticky-bar AddressAutocomplete too: it seeds the modal at
   // step 2, which skips SurveyCard's step-1 out-of-area check.
   allowedStates?: string[]
+  // Property type IDs to hard-disqualify (DISQUALIFIED_PROPERTY_TYPES). Forwarded
+  // so the advertorial funnel honors the tenant's env instead of SurveyCard's
+  // hardcoded default. Omitted → SurveyCard's default applies (unchanged).
+  disqualifiedPropertyTypes?: string[]
   // Forwarded to SurveyCard so the advertorial funnel honors MOTIVATION_V2 too.
   motivationV2?: boolean
 }
@@ -38,6 +42,9 @@ export function AdvertorialPage({
   headshotUrl,
   serviceAreas,
   allowedStates = [],
+  // No default: pass through undefined so SurveyCard's own default list applies.
+  // Defaulting to [] here would silently DISABLE the property-type DQ.
+  disqualifiedPropertyTypes,
   motivationV2 = false,
 }: AdvertorialPageProps) {
   const market = marketName || "your area"
@@ -303,7 +310,7 @@ export function AdvertorialPage({
             <p style={{ color: C.muted }} className="mt-1 text-[15px]">A handful of quick questions. No cost, nothing owed, no arm-twisting.</p>
           </div>
           <div className="flex justify-center">
-            <SurveyCard phoneDisplay={phoneDisplay} phoneHref={phoneHref} serviceAreas={serviceAreas} allowedStates={allowedStates} motivationV2={motivationV2} />
+            <SurveyCard phoneDisplay={phoneDisplay} phoneHref={phoneHref} serviceAreas={serviceAreas} allowedStates={allowedStates} disqualifiedPropertyTypes={disqualifiedPropertyTypes} motivationV2={motivationV2} />
           </div>
           <p style={{ color: C.muted }} className="text-center text-[13px] mt-3.5 max-w-[460px] mx-auto leading-[1.5]">
             Your information stays private. We never sell or share it. Requesting an offer is free and carries no obligation.
@@ -398,6 +405,7 @@ export function AdvertorialPage({
               phoneHref={phoneHref}
               serviceAreas={serviceAreas}
               allowedStates={allowedStates}
+              disqualifiedPropertyTypes={disqualifiedPropertyTypes}
               initialAddress={seeded?.address}
               initialStep={seeded && seeded.state ? 2 : undefined}
               motivationV2={motivationV2}

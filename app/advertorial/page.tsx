@@ -18,6 +18,7 @@ export default function AdvertorialRoute() {
   } catch {}
 
   const allowedStates = config.allowedStates.split(",").map(s => s.trim()).filter(Boolean)
+  const disqualifiedPropertyTypes = config.disqualifiedPropertyTypes.split(",").map(s => s.trim()).filter(Boolean)
 
   return (
     <main className="relative min-h-screen bg-white">
@@ -31,6 +32,7 @@ export default function AdvertorialRoute() {
         headshotUrl={config.headshotUrl}
         serviceAreas={serviceAreas}
         allowedStates={allowedStates}
+        disqualifiedPropertyTypes={disqualifiedPropertyTypes}
         motivationV2={config.motivationV2}
       />
     </main>
