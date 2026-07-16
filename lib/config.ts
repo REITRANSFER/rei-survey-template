@@ -47,6 +47,13 @@ const config = {
   // Survey disqualification — comma-separated property type IDs to hard-disqualify
   disqualifiedPropertyTypes: process.env.DISQUALIFIED_PROPERTY_TYPES ?? "mobile-home,land,other",
 
+  // Survey disqualification — comma-separated ownership-length option IDs to hard-
+  // disqualify (e.g. "less-than-3,3-to-5" to block under-5-year owners). Valid IDs:
+  // less-than-3, 3-to-5, 5-to-10, 10-plus. Empty (default) → no ownership gate →
+  // byte-identical legacy behavior for all existing rei-survey-template@main
+  // projects that never set DISQUALIFIED_OWNERSHIP_LENGTHS.
+  disqualifiedOwnershipLengths: process.env.DISQUALIFIED_OWNERSHIP_LENGTHS ?? "",
+
   // Geo allow-list — comma-separated 2-letter US state codes (e.g. "CA" or
   // "CA,NV"). When set, any address whose state is NOT in the list is treated
   // as out-of-area (blocked at step 1, no lead fires). Empty (default) → no geo

@@ -148,6 +148,14 @@
     "description": "Comma-separated 2-letter US state codes to ALLOW (e.g. 'CA' or 'CA,NV'). When set, any address whose state is not in the list is blocked at step 1 as out-of-area and no lead fires. Empty (default) = no geo gate."
   },
   {
+    "name": "DISQUALIFIED_OWNERSHIP_LENGTHS",
+    "type": "string",
+    "required": false,
+    "scope": "server",
+    "default": "",
+    "description": "Comma-separated ownership-length option IDs that trigger an immediate disqualification screen on the v1 homepage form. Valid IDs: less-than-3, 3-to-5, 5-to-10, 10-plus. Empty (default) = no ownership gate. Example: 'less-than-3,3-to-5' blocks under-5-year owners."
+  },
+  {
     "name": "WEBHOOK_URL",
     "type": "string",
     "required": true,

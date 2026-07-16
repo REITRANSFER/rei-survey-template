@@ -215,6 +215,9 @@ interface SurveyCardProps {
   phoneHref?: string
   serviceAreas?: ServiceArea[]
   disqualifiedPropertyTypes?: string[]
+  // Comma-parsed ownership-length option IDs to hard-disqualify
+  // (DISQUALIFIED_OWNERSHIP_LENGTHS). Empty (default) → no ownership gate.
+  disqualifiedOwnershipLengths?: string[]
   // 2-letter US state codes to ALLOW (ALLOWED_STATES). Empty → no state gate.
   allowedStates?: string[]
   // Additive seed props for the advertorial sticky-bar -> popup flow.
@@ -229,7 +232,7 @@ interface SurveyCardProps {
   motivationV2?: boolean
 }
 
-export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [], disqualifiedPropertyTypes = ["mobile-home", "land", "other"], allowedStates = [], initialAddress, initialStep, motivationV2 = false }: SurveyCardProps) {
+export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [], disqualifiedPropertyTypes = ["mobile-home", "land", "other"], disqualifiedOwnershipLengths = [], allowedStates = [], initialAddress, initialStep, motivationV2 = false }: SurveyCardProps) {
   const [step, setStep] = useState(initialStep && initialStep >= 2 && initialStep <= 8 ? initialStep : 1)
   const [surveyData, setSurveyData] = useState<SurveyData>({
     address: initialAddress ?? "",
@@ -404,6 +407,12 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
       setTimeout(() => { setDisqualifyReason("notOwner"); setIsDisqualified(true) }, 300)
       return
     }
+    // Ownership-length hard DQ (DISQUALIFIED_OWNERSHIP_LENGTHS). Empty prop (default)
+    // → inert: [].includes(value) is always false, so the step advances as today.
+    if (field === "ownershipLength" && disqualifiedOwnershipLengths.includes(value)) {
+      setTimeout(() => { setDisqualifyReason("noEquity"); setIsDisqualified(true) }, 300)
+      return
+    }
     // v2 motivation list (MOTIVATION_V2): "no reason / seeing what my house is
     // worth" hard-disqualifies — block screen, lead never submitted. The id only
     // exists in REASON_OPTIONS_V2, so this branch is inert for the legacy list.
@@ -466,6 +475,11 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
         title: "Just Browsing?",
         message: "It sounds like you're gathering information right now rather than looking to sell.",
         detail: "When you're ready to sell, come back and we'll get you a fair cash offer. Feel free to call us any time if your situation changes.",
+      },
+      noEquity: {
+        title: "We're Unable to Make an Offer",
+        message: "Unfortunately, based on how long you've owned the property, there typically isn't enough equity for us to make a fair cash offer.",
+        detail: "If your situation changes or you'd like to discuss your options, feel free to give us a call. We're always happy to help.",
       },
     }
     const msg = disqualifyMessages[disqualifyReason] || disqualifyMessages.notOwner
