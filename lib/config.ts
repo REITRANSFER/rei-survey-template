@@ -77,6 +77,12 @@ const config = {
   // worth" hard-disqualifier. Existing rei-survey-template@main projects without
   // this env → falsy → byte-identical legacy reason list, no disqualifier.
   motivationV2:    process.env.MOTIVATION_V2 === "true",
+
+  // Excellent-condition pass-through (Option 3) — OPT-IN. When "true", excellent
+  // move-in-ready homes count as a normal qualified Lead instead of being soft-DQ'd
+  // to LeadLowIntent. Default false / unset → byte-identical soft-DQ behavior for
+  // every existing template-linked client.
+  excellentConditionPass: process.env.EXCELLENT_CONDITION_PASS === "true",
 } as const
 
 export default config

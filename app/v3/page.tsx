@@ -80,6 +80,7 @@ export default function V3Page() {
           phoneHref={config.phoneHref}
           phoneDisplay={config.phoneDisplay}
           motivationV2={config.motivationV2}
+          excellentConditionPass={config.excellentConditionPass}
         />
       </div>
 

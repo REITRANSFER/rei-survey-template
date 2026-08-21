@@ -117,11 +117,12 @@ function calculateLeadScore(d: SurveyData): number {
   const c = SCORE_CONDITION[d.condition] ?? 0
   return Math.min(10, t + r + c)
 }
-function isQualifiedForMeta(d: SurveyData): boolean {
+function isQualifiedForMeta(d: SurveyData, excellentConditionPass = false): boolean {
   const okType = d.propertyType === 'single-family' || d.propertyType === 'multi-family'
   const okListed = d.listedOnMarket === 'not-listed'
   const okOwner = d.isLegalOwner !== 'no'
-  const okCondition = d.condition !== 'excellent'
+  // Opt-in pass-through (Option 3): when enabled, excellent no longer disqualifies.
+  const okCondition = excellentConditionPass || d.condition !== 'excellent'
   return okType && okListed && okOwner && okCondition
 }
 function leadQuality(score: number): 'premium' | 'standard' | 'low' {
@@ -129,11 +130,11 @@ function leadQuality(score: number): 'premium' | 'standard' | 'low' {
   if (score >= 2) return 'standard'
   return 'low'
 }
-function disqualifyReasonFor(d: SurveyData): string {
+function disqualifyReasonFor(d: SurveyData, excellentConditionPass = false): string {
   if (d.propertyType !== 'single-family' && d.propertyType !== 'multi-family') return 'property_type'
   if (d.listedOnMarket !== 'not-listed') return 'listed'
   if (d.isLegalOwner === 'no') return 'not_owner'
-  if (d.condition === 'excellent') return 'excellent_condition'
+  if (!excellentConditionPass && d.condition === 'excellent') return 'excellent_condition'
   return 'unknown'
 }
 // ──────────────────────────────────────────────────────────────────────
@@ -230,9 +231,13 @@ interface SurveyCardProps {
   // "no-reason" hard-disqualifier. Passed from the server page (config.motivationV2)
   // — this client component must NOT import lib/config.
   motivationV2?: boolean
+  // Opt-in (EXCELLENT_CONDITION_PASS): when true, excellent counts as a normal
+  // qualified Lead instead of a soft-DQ. Passed from the server page
+  // (config.excellentConditionPass); default false = current soft-DQ behavior.
+  excellentConditionPass?: boolean
 }
 
-export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [], disqualifiedPropertyTypes = ["mobile-home", "land", "other"], disqualifiedOwnershipLengths = [], allowedStates = [], initialAddress, initialStep, motivationV2 = false }: SurveyCardProps) {
+export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [], disqualifiedPropertyTypes = ["mobile-home", "land", "other"], disqualifiedOwnershipLengths = [], allowedStates = [], initialAddress, initialStep, motivationV2 = false, excellentConditionPass = false }: SurveyCardProps) {
   const [step, setStep] = useState(initialStep && initialStep >= 2 && initialStep <= 8 ? initialStep : 1)
   const [surveyData, setSurveyData] = useState<SurveyData>({
     address: initialAddress ?? "",
@@ -308,8 +313,8 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
         const fullName = `${surveyData.firstName.trim()} ${surveyData.lastName.trim()}`.trim()
         const score = calculateLeadScore(surveyData)
         const quality = leadQuality(score)
-        const qualified = isQualifiedForMeta(surveyData)
-        const dqReason = qualified ? null : disqualifyReasonFor(surveyData)
+        const qualified = isQualifiedForMeta(surveyData, excellentConditionPass)
+        const dqReason = qualified ? null : disqualifyReasonFor(surveyData, excellentConditionPass)
         const eventId = `lead-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`
         const payload = {
           firstName: surveyData.firstName.trim(),
