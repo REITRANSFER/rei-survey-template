@@ -256,5 +256,13 @@
     "scope": "server",
     "default": "",
     "description": "Bearer secret for the GoFunnel external webhook (pairs with GOFUNNEL_WEBHOOK_CREDENTIAL_ID). Blank/unset disables the forward."
+  },
+  {
+    "name": "EXCELLENT_CONDITION_PASS",
+    "type": "string",
+    "required": false,
+    "scope": "server",
+    "default": "false",
+    "description": "Opt-in (Option 3): when \"true\", excellent move-in-ready homes count as a normal qualified Lead instead of being soft-DQ'd to LeadLowIntent. Default \"false\"/unset keeps the current soft-DQ behavior byte-identical for every existing template-linked client. Enabled per-client via env only; leaves the DISQUALIFY hard-block logic untouched."
   }
 ]
