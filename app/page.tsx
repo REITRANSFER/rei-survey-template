@@ -19,6 +19,7 @@ export default function HomePage() {
   const disqualifiedPropertyTypes = config.disqualifiedPropertyTypes.split(",").map(s => s.trim()).filter(Boolean)
   const disqualifiedOwnershipLengths = config.disqualifiedOwnershipLengths.split(",").map(s => s.trim()).filter(Boolean)
   const allowedStates = config.allowedStates.split(",").map(s => s.trim()).filter(Boolean)
+  const excludedZips = config.excludedZips.split(",").map(s => s.trim()).filter(Boolean)
 
   const ibuykc = config.useIbuykcStyle
 
@@ -81,6 +82,7 @@ export default function HomePage() {
               disqualifiedPropertyTypes={disqualifiedPropertyTypes}
               disqualifiedOwnershipLengths={disqualifiedOwnershipLengths}
               allowedStates={allowedStates}
+              excludedZips={excludedZips}
               motivationV2={config.motivationV2}
               excellentConditionPass={config.excellentConditionPass}
             />

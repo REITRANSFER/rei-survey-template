@@ -221,6 +221,7 @@ interface SurveyCardProps {
   disqualifiedOwnershipLengths?: string[]
   // 2-letter US state codes to ALLOW (ALLOWED_STATES). Empty → no state gate.
   allowedStates?: string[]
+  excludedZips?: string[]
   // Additive seed props for the advertorial sticky-bar -> popup flow.
   // When an address is captured in the sticky bar, we open the modal pre-seeded
   // at step 2 so the user does not have to re-enter the address they already gave.
@@ -237,7 +238,7 @@ interface SurveyCardProps {
   excellentConditionPass?: boolean
 }
 
-export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [], disqualifiedPropertyTypes = ["mobile-home", "land", "other"], disqualifiedOwnershipLengths = [], allowedStates = [], initialAddress, initialStep, motivationV2 = false, excellentConditionPass = false }: SurveyCardProps) {
+export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "8000000000", serviceAreas = [], disqualifiedPropertyTypes = ["mobile-home", "land", "other"], disqualifiedOwnershipLengths = [], allowedStates = [], excludedZips = [], initialAddress, initialStep, motivationV2 = false, excellentConditionPass = false }: SurveyCardProps) {
   const [step, setStep] = useState(initialStep && initialStep >= 2 && initialStep <= 8 ? initialStep : 1)
   const [surveyData, setSurveyData] = useState<SurveyData>({
     address: initialAddress ?? "",
@@ -563,6 +564,7 @@ export function SurveyCard({ phoneDisplay = "(800) 000-0000", phoneHref = "80000
               onOutOfArea={(addr) => { setSurveyData({ ...surveyData, address: addr }); setAddressVerified(true); setAddressOutOfArea(true) }}
               serviceAreas={serviceAreas}
               allowedStates={allowedStates}
+              excludedZips={excludedZips}
               placeholder="Start typing your address..."
             />
 
